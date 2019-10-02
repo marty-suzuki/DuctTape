@@ -1,5 +1,13 @@
 # DuctTape
 
+[![CI Status](https://img.shields.io/travis/marty-suzuki/DuctTape.svg?style=flat)](https://travis-ci.org/marty-suzuki/DuctTape)
+[![Version](https://img.shields.io/cocoapods/v/DuctTape.svg?style=flat)](https://cocoapods.org/pods/DuctTape)
+[![License](https://img.shields.io/cocoapods/l/DuctTape.svg?style=flat)](https://cocoapods.org/pods/DuctTape)
+[![Platform](https://img.shields.io/cocoapods/p/DuctTape.svg?style=flat)](https://cocoapods.org/pods/DuctTape)
+[![SwiftPM](https://img.shields.io/badge/SwiftPM-compatible-green.svg)](https://swift.org/package-manager)
+[![Carthage](https://img.shields.io/badge/Carthage-compatible-yellow.svg)](https://github.com/Carthage/Carthage)
+[![Language](https://img.shields.io/badge/Language-Swift5.1-orange.svg)](https://developer.apple.com/swift)
+
 ⚙️ KeyPath dynamicMemberLookup based syntax sugar for Swift.
 
 ```swift
@@ -22,7 +30,7 @@ let label: UILabel = {
 }()
 ```
 
-# Usage
+## Usage
 
 ```swift
 class ViewController: UIViewController {
@@ -60,7 +68,7 @@ class ViewController: UIViewController {
 }
 ```
 
-# Requirement
+## Requirement
 
 - Xcode 11
 - macOS 10.10
@@ -68,6 +76,34 @@ class ViewController: UIViewController {
 - tvOS 10.0
 - watchOS 3.0
 
-# License
+## Installation
+
+#### CocoaPods
+
+DuctTape is available through [CocoaPods](http://cocoapods.org). To install
+it, simply add the following line to your `Podfile`:
+
+```ruby
+pod "DuctTape"
+```
+
+#### Carthage
+
+If you’re using [Carthage](https://github.com/Carthage/Carthage), simply add
+DuctTape to your `Cartfile`:
+
+```
+github "marty-suzuki/DuctTape"
+```
+
+#### Swift Package Manager
+
+Simply add the following line to your `Package.swift`:
+
+```
+.package(url: "https://github.com/marty-suzuki/DuctTape.git", from: "version")
+```
+
+## License
 
 DuctTape is released under the MIT License.
