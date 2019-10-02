@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'DuctTape'
-  s.version          = '0.1.0'
+  s.version          = '0.1.1'
   s.summary          = 'KeyPath dynamicMemberLookup based syntax sugar for Swift.'
 
   s.homepage         = 'https://github.com/marty-suzuki/DuctTape'
