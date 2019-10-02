@@ -1,0 +1,9 @@
+language: objective-c
+os: osx
+osx_image: xcode11
+before_script:
+  - set -o pipefail
+script:
+  - swift test
+notifications:
+  email: false
