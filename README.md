@@ -64,8 +64,8 @@ class ViewController: UIViewController {
 
 - Xcode 11
 - macOS 10.10
-- iOS 10.0
-- tvOS 10.10
+- iOS 9.0
+- tvOS 10.0
 - watchOS 3.0
 
 # License

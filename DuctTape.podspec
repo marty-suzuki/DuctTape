@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
   s.social_media_url = 'https://twitter.com/marty_suzuki'
   s.swift_version    = '5.1'
 
-  s.ios.deployment_target = '10.0'
+  s.ios.deployment_target = '9.0'
   s.osx.deployment_target = '10.10'
   s.tvos.deployment_target = '10.0'
   s.watchos.deployment_target = '3.0'
