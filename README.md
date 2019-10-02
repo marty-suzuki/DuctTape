@@ -8,7 +8,7 @@
 [![Carthage](https://img.shields.io/badge/Carthage-compatible-yellow.svg)](https://github.com/Carthage/Carthage)
 [![Language](https://img.shields.io/badge/Language-Swift5.1-orange.svg)](https://developer.apple.com/swift)
 
-⚙️ KeyPath dynamicMemberLookup based syntax sugar for Swift.
+📦 KeyPath dynamicMemberLookup based syntax sugar for Swift.
 
 ```swift
 let label = UILabel().ductTape
@@ -31,6 +31,51 @@ let label: UILabel = {
 ```
 
 ## Usage
+
+NSObject already has been compatible with DuctTape, so you can access `.ductTape` property like below.
+
+```swift
+let builder: Builder<UIView> = UIView().ductTape
+```
+
+If you access `.ductTape`, it returns `Builder` that provides setter of properties via KeyPath dynamicMemberLookup.
+
+```swift
+let view: UIView = UIView().ductTape
+    .backgroundColor(.red)
+    .translatesAutoresizingMaskIntoConstraints(false)
+    .build()
+```
+
+Finally, If you call `.build()`, `Builder` returns instance that has set property values.
+
+If some objects are not compatible with DuctTape, there are two ways to use DuctTape.
+
+1. Use DuctTapeCompatible
+
+```swift
+class Dog: DuctTapeCompatible {
+    var name: String
+}
+
+let dog = Dog().ductTape
+    .name("Copernicus")
+    .build()
+```
+
+2. Use Builder directly
+
+```swift
+class Dog {
+    var name: String
+}
+
+let dog = Builder(Dog())
+    .name("Copernicus")
+    .build()
+```
+
+#### Sample
 
 ```swift
 class ViewController: UIViewController {
