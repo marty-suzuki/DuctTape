@@ -7,6 +7,10 @@ public struct Builder<Base: AnyObject> {
         self._build = build
     }
 
+    public init(_ base: Base) {
+        self._build = { base }
+    }
+
     public subscript<Value>(dynamicMember keyPath: ReferenceWritableKeyPath<Base, Value>) -> (Value) -> Builder<Base> {
         { [build = _build] value in
             Builder {
@@ -90,11 +94,10 @@ public protocol DuctTapeCompatible {
 
 extension DuctTapeCompatible where Self: AnyObject {
     public var ductTape: Builder<Self> {
-        get { Builder { self } }
+        get { Builder(self) }
         set {}
     }
 }
-
 
 #if canImport(Foundation)
 import Foundation
