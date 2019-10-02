@@ -44,9 +44,29 @@ final class DuctTapeTests: XCTestCase {
         XCTAssertEqual(object.boolValue, boolValue)
     }
 
-    private final class Object: DuctTapeCompatible {
+    func testDuctTape_without_protocol() {
+        let intValue = Int(arc4random())
+        let stringValue = String(arc4random())
+        let boolValue = arc4random() % 2 == 0
+
+        let object = Builder(ObjectBase())
+            .reinforce {
+                $0.intValue = intValue
+                $0.stringValue = stringValue
+                $0.boolValue = boolValue
+            }
+            .build()
+
+        XCTAssertEqual(object.intValue, intValue)
+        XCTAssertEqual(object.stringValue, stringValue)
+        XCTAssertEqual(object.boolValue, boolValue)
+    }
+
+    private class ObjectBase {
         var intValue: Int?
         var stringValue: String?
         var boolValue: Bool?
     }
+
+    private final class Object: ObjectBase, DuctTapeCompatible {}
 }
