@@ -1,12 +1,15 @@
 # DuctTape
 
-[![CI Status](https://img.shields.io/travis/marty-suzuki/DuctTape.svg?style=flat)](https://travis-ci.org/marty-suzuki/DuctTape)
-[![Version](https://img.shields.io/cocoapods/v/DuctTape.svg?style=flat)](https://cocoapods.org/pods/DuctTape)
-[![License](https://img.shields.io/cocoapods/l/DuctTape.svg?style=flat)](https://cocoapods.org/pods/DuctTape)
-[![Platform](https://img.shields.io/cocoapods/p/DuctTape.svg?style=flat)](https://cocoapods.org/pods/DuctTape)
-[![SwiftPM](https://img.shields.io/badge/SwiftPM-compatible-green.svg)](https://swift.org/package-manager)
-[![Carthage](https://img.shields.io/badge/Carthage-compatible-yellow.svg)](https://github.com/Carthage/Carthage)
-[![Language](https://img.shields.io/badge/Language-Swift5.1-orange.svg)](https://developer.apple.com/swift)
+<p align="center">
+<a href="https://travis-ci.org/marty-suzuki/DuctTape"><img alt="CI Status" src="https://img.shields.io/travis/marty-suzuki/DuctTape.svg?style=flat"/></a>
+<a href="https://cocoapods.org/pods/DuctTape"><img alt="Pod" src="https://img.shields.io/cocoapods/v/DuctTape.svg?style=flat"/></a>
+<a href="https://github.com/Carthage/Carthage"><img alt="Carthage" src="https://img.shields.io/badge/Carthage-compatible-yellow.svg"/></a
+<a href="https://swift.org/package-manager"><img alt="SwiftPM" src="https://img.shields.io/badge/SwiftPM-compatible-green.svg"/></a>
+<br/>
+<a href="https://developer.apple.com/swift"><img alt="Swift5" src="https://img.shields.io/badge/language-Swift5-orange.svg"/></a>
+<a href="https://cocoapods.org/pods/DuctTape"><img alt="Platform" src="https://img.shields.io/cocoapods/p/DuctTape.svg?style=flat"/></a>
+<a href="https://cocoapods.org/pods/DuctTape"><img alt="License" src="https://img.shields.io/cocoapods/l/DuctTape.svg?style=flat"/></a>
+</p>
 
 📦 KeyPath dynamicMemberLookup based syntax sugar for Swift.
 
@@ -47,9 +50,42 @@ let view: UIView = UIView().ductTape
     .build()
 ```
 
-Finally, If you call `.build()`, `Builder` returns instance that has set property values.
+Finally, if you call `.build()`, `Builder` returns instance that has set property values.
 
-If some objects are not compatible with DuctTape, there are two ways to use DuctTape.
+#### How to access methods
+
+If you want to access methods of object which is building, `func reinforce(_ handler: (Base) -> Void) Builder<Base>` enable to access methods.
+
+```swift
+let collectionView = UICollectionView().ductTape
+    .backgroundColor(.red)
+    .reinforce { collectionView in
+        collectionView.register(UITableViewCell.self, forCellWithReuseIdentifier: "Cell")
+    }
+    .build()
+```
+
+`Builder` has `func reinforce<T1, ...>(_ t1: T1, ..., handler: (Base) -> Void) Builder<Base>` methods.
+In additional usage, be able to access outside object with `func reinforce` if passing objects as arguments.
+
+```swift
+lazy var collectionView = UICollectionView().ductTape
+    .translatesAutoresizingMaskIntoConstraints(false)
+    .reinforce(view) { collectionView, view in
+        view.addSubview(collectionView)
+        NSLayoutConstraint.activate([
+            view.topAnchor.constraint(equalTo: collectionView.topAnchor),
+            view.leadingAnchor.constraint(equalTo: collectionView.leadingAnchor),
+            view.trailingAnchor.constraint(equalTo: collectionView.trailingAnchor),
+            view.bottomAnchor.constraint(equalTo: collectionView.bottomAnchor)
+        ])
+    }
+    .build()
+```
+
+#### How to use DuctTape with self-implemented classes
+
+There are two ways to use DuctTape.
 
 1. Use DuctTapeCompatible
 
@@ -75,7 +111,7 @@ let dog = Builder(Dog())
     .build()
 ```
 
-#### Sample
+#### Sample Code
 
 ```swift
 class ViewController: UIViewController {
