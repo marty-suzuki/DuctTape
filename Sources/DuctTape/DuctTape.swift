@@ -1,98 +1,103 @@
 @dynamicMemberLookup
-public struct Builder<Base: AnyObject> {
+public struct Builder<Base> {
 
-    private let _build: () -> Base
-
-    public init(_ build: @escaping () -> Base) {
-        self._build = build
-    }
+    private let base: Base
 
     public init(_ base: Base) {
-        self._build = { base }
+        self.base = base
     }
 
-    public subscript<Value>(dynamicMember keyPath: ReferenceWritableKeyPath<Base, Value>) -> (Value) -> Builder<Base> {
-        { [build = _build] value in
-            Builder {
-                let object = build()
-                object[keyPath: keyPath] = value
-                return object
-            }
+    public subscript<Value>(dynamicMember keyPath: WritableKeyPath<Base, Value>) -> (Value) -> Builder<Base> {
+        { [base] value in
+            var object = base
+            object[keyPath: keyPath] = value
+            return Builder(object)
         }
     }
 
+    public subscript<Value>(dynamicMember keyPath: WritableKeyPath<Base, Value>) -> (Value) -> Base {
+        { [base] value in
+            var object = base
+            object[keyPath: keyPath] = value
+            return object
+        }
+    }
+
+    @available(swift, deprecated: 5)
     public func build() -> Base {
-        _build()
+        base
     }
 }
 
 extension Builder {
 
-    public func reinforce(_ handler: @escaping (Base) -> Void) -> Builder<Base> {
-        Builder { [build = _build] in
-            let object = build()
-            handler(object)
-            return object
-        }
+    public func reinforce(_ handler: (inout Base) -> Void) -> Builder<Base> {
+        Builder(reinforce(handler))
     }
 
-    public func reinforce<T: AnyObject>(_ t: T, handler: @escaping (Base, T) -> Void) -> Builder<Base> {
-        Builder { [build = _build, weak t] in
-            let object = build()
-            if let t = t {
-                handler(object, t)
-            }
-            return object
-        }
+    public func reinforce(_ handler: (inout Base) -> Void) -> Base {
+        var object = base
+        handler(&object)
+        return object
     }
 
-    public func reinforce<T1: AnyObject, T2: AnyObject>(_ t1: T1, t2: T2, handler: @escaping (Base, T1, T2) -> Void) -> Builder<Base> {
-        Builder { [build = _build, weak t1, weak t2] in
-            let object = build()
-            if let t1 = t1, let t2 = t2 {
-                handler(object, t1, t2)
-            }
-            return object
-        }
+    public func reinforce<T>(_ t: T, handler: (inout Base, T) -> Void) -> Builder<Base> {
+        Builder(reinforce(t, handler: handler))
     }
 
-    public func reinforce<T1: AnyObject, T2: AnyObject, T3: AnyObject>(_ t1: T1, t2: T2, t3: T3, handler: @escaping (Base, T1, T2, T3) -> Void) -> Builder<Base> {
-        Builder { [build = _build, weak t1, weak t2, weak t3] in
-            let object = build()
-            if let t1 = t1, let t2 = t2, let t3 = t3 {
-                handler(object, t1, t2, t3)
-            }
-            return object
-        }
+    public func reinforce<T>(_ t: T, handler: (inout Base, T) -> Void) -> Base {
+        var object = base
+        handler(&object, t)
+        return object
     }
 
-    public func reinforce<T1: AnyObject, T2: AnyObject, T3: AnyObject, T4: AnyObject>(_ t1: T1, t2: T2, t3: T3, t4: T4, handler: @escaping (Base, T1, T2, T3, T4) -> Void) -> Builder<Base> {
-        Builder { [build = _build, weak t1, weak t2, weak t3, weak t4] in
-            let object = build()
-            if let t1 = t1, let t2 = t2, let t3 = t3, let t4 = t4 {
-                handler(object, t1, t2, t3, t4)
-            }
-            return object
-        }
+    public func reinforce<T1, T2>(_ t1: T1, _ t2: T2, handler: (inout Base, T1, T2) -> Void) -> Builder<Base> {
+        Builder(reinforce(t1, t2, handler: handler))
     }
 
-    public func reinforce<T1: AnyObject, T2: AnyObject, T3: AnyObject, T4: AnyObject, T5: AnyObject>(_ t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, handler: @escaping (Base, T1, T2, T3, T4, T5) -> Void) -> Builder<Base> {
-        Builder { [build = _build, weak t1, weak t2, weak t3, weak t4, weak t5] in
-            let object = build()
-            if let t1 = t1, let t2 = t2, let t3 = t3, let t4 = t4, let t5 = t5 {
-                handler(object, t1, t2, t3, t4, t5)
-            }
-            return object
-        }
+    public func reinforce<T1, T2>(_ t1: T1, _ t2: T2, handler: (inout Base, T1, T2) -> Void) -> Base {
+        var object = base
+        handler(&object, t1, t2)
+        return object
+    }
+
+    public func reinforce<T1, T2, T3>(_ t1: T1, _ t2: T2, _ t3: T3, handler: (inout Base, T1, T2, T3) -> Void) -> Builder<Base> {
+        Builder(reinforce(t1, t2, t3, handler: handler))
+    }
+
+    public func reinforce<T1, T2, T3>(_ t1: T1, _ t2: T2, _ t3: T3, handler: (inout Base, T1, T2, T3) -> Void) -> Base {
+        var object = base
+        handler(&object, t1, t2, t3)
+        return object
+    }
+
+    public func reinforce<T1, T2, T3, T4>(_ t1: T1, _ t2: T2, _ t3: T3, _ t4: T4, handler: (inout Base, T1, T2, T3, T4) -> Void) -> Builder<Base> {
+        Builder(reinforce(t1, t2, t3, t4, handler: handler))
+    }
+
+    public func reinforce<T1, T2, T3, T4>(_ t1: T1, _ t2: T2, _ t3: T3, _ t4: T4, handler: (inout Base, T1, T2, T3, T4) -> Void) -> Base {
+        var object = base
+        handler(&object, t1, t2, t3, t4)
+        return object
+    }
+
+    public func reinforce<T1, T2, T3, T4, T5>(_ t1: T1, _ t2: T2, _ t3: T3, _ t4: T4, _ t5: T5, handler: (inout Base, T1, T2, T3, T4, T5) -> Void) -> Builder<Base> {
+        Builder(reinforce(t1, t2, t3, t4, t5, handler: handler))
+    }
+
+    public func reinforce<T1, T2, T3, T4, T5>(_ t1: T1, _ t2: T2, _ t3: T3, _ t4: T4, _ t5: T5, handler: (inout Base, T1, T2, T3, T4, T5) -> Void) -> Base {
+        var object = base
+        handler(&object, t1, t2, t3, t4, t5)
+        return object
     }
 }
 
 public protocol DuctTapeCompatible {
-    associatedtype DuctTapeBase: AnyObject
+    associatedtype DuctTapeBase
     var ductTape: Builder<DuctTapeBase> { get set }
 }
 
-extension DuctTapeCompatible where Self: AnyObject {
+extension DuctTapeCompatible {
     public var ductTape: Builder<Self> {
         get { Builder(self) }
         set {}
