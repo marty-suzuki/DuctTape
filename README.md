@@ -14,11 +14,10 @@
 📦 KeyPath dynamicMemberLookup based syntax sugar for Swift.
 
 ```swift
-let label = UILabel().ductTape
+let label: UILabel = UILabel().ductTape
     .numberOfLines(0)
     .textColor(.red)
     .text("Hello, World!!")
-    .build()
 ```
 
 Above is same as below definition.
@@ -47,29 +46,25 @@ If you access `.ductTape`, it returns `Builder` that provides setter of properti
 let view: UIView = UIView().ductTape
     .backgroundColor(.red)
     .translatesAutoresizingMaskIntoConstraints(false)
-    .build()
 ```
-
-Finally, if you call `.build()`, `Builder` returns instance that has set property values.
 
 #### How to access methods
 
 If you want to access methods of object which is building, `func reinforce(_ handler: (Base) -> Void) Builder<Base>` enable to access methods.
 
 ```swift
-let collectionView = UICollectionView().ductTape
+let collectionView: UICollectionView = UICollectionView().ductTape
     .backgroundColor(.red)
     .reinforce { collectionView in
         collectionView.register(UITableViewCell.self, forCellWithReuseIdentifier: "Cell")
     }
-    .build()
 ```
 
 `Builder` has `func reinforce<T1, ...>(_ t1: T1, ..., handler: (Base) -> Void) Builder<Base>` methods.
 In additional usage, be able to access outside object with `func reinforce` if passing objects as arguments.
 
 ```swift
-lazy var collectionView = UICollectionView().ductTape
+lazy var collectionView: UICollectionView = UICollectionView().ductTape
     .translatesAutoresizingMaskIntoConstraints(false)
     .reinforce(view) { collectionView, view in
         view.addSubview(collectionView)
@@ -80,7 +75,6 @@ lazy var collectionView = UICollectionView().ductTape
             view.bottomAnchor.constraint(equalTo: collectionView.bottomAnchor)
         ])
     }
-    .build()
 ```
 
 #### How to use DuctTape with self-implemented classes
@@ -94,9 +88,8 @@ class Dog: DuctTapeCompatible {
     var name: String
 }
 
-let dog = Dog().ductTape
+let dog: Dog = Dog().ductTape
     .name("Copernicus")
-    .build()
 ```
 
 2. Use Builder directly
@@ -106,9 +99,8 @@ class Dog {
     var name: String
 }
 
-let dog = Builder(Dog())
+let dog: Dog = Builder(Dog())
     .name("Copernicus")
-    .build()
 ```
 
 #### Sample Code
@@ -122,7 +114,6 @@ class ViewController: UIViewController {
         .minimumInteritemSpacing(10)
         .itemSize(CGSize(width: 100, height: 100))
         .scrollDirection(.vertical)
-        .build()
 
     lazy var collectionView: UICollectionView = UICollectionView(frame: .zero,
                                                                  collectionViewLayout: flowLayout)
@@ -133,7 +124,6 @@ class ViewController: UIViewController {
         .reinforce {
             $0.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
         }
-        .build()
 
     override func viewDidLoad() {
         super.viewDidLoad()
