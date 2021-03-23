@@ -7,8 +7,11 @@
 #
 
 Pod::Spec.new do |s|
+  last_commit = `git rev-list --tags --max-count=1`.strip
+  last_tag = `git describe --tags #{last_commit}`.strip
+
   s.name             = 'DuctTape'
-  s.version          = '0.1.1'
+  s.version          = last_tag
   s.summary          = 'KeyPath dynamicMemberLookup based syntax sugar for Swift.'
 
   s.homepage         = 'https://github.com/marty-suzuki/DuctTape'
